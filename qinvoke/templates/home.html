@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="list-group">
+  {% for task in tasks %}
+  <a href=/{{task.name}} class="list-group-item list-group-item-action">
+    <pre display="inline" class="mb-0"
+    ><strong>{{ task.name.ljust(30) }}</strong> {{ task.doc }}</pre>
+  </a>
+  {% endfor %}
+</div>
+{% endblock %}

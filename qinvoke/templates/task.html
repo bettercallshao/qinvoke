@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block body %}
+<p class="font-weight-bold">{{ task.name }}</p>
+<p>{{ task.doc }}</p>
+<form action="/{{ task.name }}" method="post">
+  {% for arg in task.args %}
+  <div class="form-group row">
+    <label for="{{ arg.name }}" class="col-sm-2 col-form-label">{{ arg.name }}</label>
+    <div class="col-sm-10">
+      {% if arg.is_list %}
+      <textarea
+        class="form-control border"
+        rows="5"
+        id="{{ arg.name }}"
+        name="{{ arg.name }}"
+        placeholder="{{ arg.doc }}"
+      ></textarea>
+      {% else %}
+      <input
+        type="text"
+        class="form-control-plaintext border"
+        id="{{ arg.name }}"
+        name="{{ arg.name }}"
+        value="{{ arg.value or '' }}"
+        placeholder="{{ arg.doc }}"
+      >
+      {% endif %}
+    </div>
+  </div>
+  {% endfor %}
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+<div class='border mt-3'>
+  <pre>>> <strong>{{ cmd }}</strong>
+{{ out }}</pre>
+</div>
+{% endblock %}
