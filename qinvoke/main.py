@@ -1,4 +1,5 @@
-from . import version, Program
+from . import Program
+from .version import version
 
 program = Program(
     name='qinvoke',

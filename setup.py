@@ -1,6 +1,9 @@
 from setuptools import setup
 
-from qinvoke import version
+_locals = {}
+with open("qinvoke/version.py") as fp:
+    exec(fp.read(), None, _locals)
+version = _locals["version"]
 
 with open('README.md') as f:
     long_description = f.read()
@@ -26,8 +29,8 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'qinvoke = qinvoke.main:program.run',
-            'qinv = qinvoke.main:program.run',
+            'qinvoke = qinvoke.main:program.serve',
+            'qinv = qinvoke.main:program.serve',
         ]
     },
     install_requires=[
