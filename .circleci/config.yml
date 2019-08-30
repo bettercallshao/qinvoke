@@ -21,6 +21,11 @@ workflows:
             branches:
               ignore: /.*/
       - release:
+          filters:
+            tags:
+              only: /v[0-9]+(\.[0-9]+)*/
+            branches:
+              ignore: /.*/
           requires:
             - sanity
 jobs:
