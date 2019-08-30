@@ -1,5 +1,7 @@
-from . import Program
-from .version import version
+# -*- coding: utf-8 -*-
+"""Entrypoint for the standalone qinvoke."""
+
+from . import Program, version
 
 program = Program(
     name='qinvoke',

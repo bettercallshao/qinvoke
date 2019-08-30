@@ -1,4 +1,6 @@
 # qinvoke
+[![CircleCI](https://circleci.com/gh/hydiant/qinvoke.svg?style=svg)](https://circleci.com/gh/hydiant/qinvoke)
+
 qinvoke - q stands for nothing particular.
 
 # summary

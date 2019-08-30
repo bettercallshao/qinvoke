@@ -1,9 +1,12 @@
+# -*- coding: utf-8 -*-
+"""Setup for qinvoke."""
+
 from setuptools import setup
 
 _locals = {}
-with open("qinvoke/version.py") as fp:
-    exec(fp.read(), None, _locals)
-version = _locals["version"]
+with open('qinvoke/_version.py') as fp:
+    exec(fp.read(), None, _locals) # noqa
+version = _locals['version']
 
 with open('README.md') as f:
     long_description = f.read()
@@ -19,19 +22,11 @@ setup(
     url='https://github.com/hydiant/qinvoke',
     license='MIT',
     packages=['qinvoke'],
-    data_files=[
-        (
-            'templates', [
-                'qinvoke/templates/{}.html'.format(n)
-                for n in ['base', 'home', 'task']
-            ]
-        )
-    ],
     entry_points={
         'console_scripts': [
             'qinvoke = qinvoke.main:program.serve',
             'qinv = qinvoke.main:program.serve',
-        ]
+        ],
     },
     install_requires=[
         'flask',

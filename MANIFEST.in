@@ -1,1 +1,1 @@
-recursive-include qinvoke *.txt *.py
+recursive-include qinvoke *.html *.py
