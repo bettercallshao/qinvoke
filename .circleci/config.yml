@@ -2,28 +2,63 @@
 #
 # Check https://circleci.com/docs/2.0/language-python/ for more details
 #
-version: 2
+version: 2.1
+workflows:
+  sanity:
+    jobs:
+      - sanity:
+          filters:
+            branches:
+              only: /.*/
+            tags:
+              ignore: /.*/
+  release:
+    jobs:
+      - sanity:
+          filters:
+            tags:
+              only: /v[0-9]+(\.[0-9]+)*/
+            branches:
+              ignore: /.*/
+      - release:
+          requires:
+            - sanity
 jobs:
-  build:
+  sanity:
     docker:
       - image: circleci/python:3.7
-
     working_directory: ~/repo
-
     steps:
       - checkout
-
       - run:
           name: install dependencies
           command: |
             pip install --user -r ci/requirements.txt
-
       - run:
           name: linter
           command: |
             flake8 .
-
       - run:
           name: install package
           command: |
             pip install --user .
+  release:
+    docker:
+      - image: circleci/python:3.7
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run:
+          name: install dependencies
+          command: |
+            pip install --user -r ci/requirements.txt
+      - run:
+          name: generate .pypirc
+          command: |
+            echo -e "[pypi]" >> ~/.pypirc
+            echo -e "username = $PYPI_USERNAME" >> ~/.pypirc
+            echo -e "password = $PYPI_PASSWORD" >> ~/.pypirc
+      - run:
+          name: upload to pypi
+          command: |
+            twine upload dist/*

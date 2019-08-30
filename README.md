@@ -1,5 +1,6 @@
 # qinvoke
-[![CircleCI](https://circleci.com/gh/hydiant/qinvoke.svg?style=svg)](https://circleci.com/gh/hydiant/qinvoke)
+[![CircleCI](https://circleci.com/gh/hydiant/qinvoke.svg?style=shield)](https://circleci.com/gh/hydiant/qinvoke)
+[![PyPi](https://badge.fury.io/py/qinvoke.svg)](https://badge.fury.io/py/qinvoke)
 
 qinvoke - q stands for nothing particular.
 

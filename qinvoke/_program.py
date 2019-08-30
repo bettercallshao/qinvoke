@@ -98,7 +98,10 @@ class Program(Base):
                 ]
 
                 with _redirect_stdout() as f:
-                    self.run(argv)
+                    try:
+                        self.run(argv)
+                    except Exception as e:
+                        print(e) # noqa
                     return render_template(
                         'task.html',
                         title=title,
