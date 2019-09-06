@@ -17,10 +17,11 @@ ansi_escape = re.compile(r'\x1B[@-_][0-?]*[ -/]*[@-~]')
 
 @contextlib.contextmanager
 def _redirect_stdout():
-    original = sys.stdout
+    original = sys.stdout, sys.stderr
     sys.stdout = io.StringIO()
+    sys.stderr = sys.stdout
     yield sys.stdout
-    sys.stdout = original
+    sys.stdout, sys.stderr = original
 
 
 class Program(Base):
@@ -35,10 +36,10 @@ class Program(Base):
 
         tasks = [{
             'name': c.name,
-            'doc': inspect.getdoc(self.collection[c.name]),
+            'doc': inspect.getdoc(self.collection[c.name]) or '',
             'args': [{
                 'name': f.name,
-                'doc': f.help,
+                'doc': f.help or '',
                 'value': f.default,
                 'is_list': f.kind == list,
                 } for f in c.flags.values()],
@@ -99,16 +100,17 @@ class Program(Base):
 
                 with _redirect_stdout() as f:
                     try:
-                        self.run(argv)
-                    except Exception as e:
-                        print(e) # noqa
-                    return render_template(
-                        'task.html',
-                        title=title,
-                        task=task_dict,
-                        cmd=' '.join(argv),
-                        out=ansi_escape.sub('', f.getvalue()),
-                    )
+                        self.run(argv=argv, exit=False)
+                    finally:
+                        out = f.getvalue()
+
+                return render_template(
+                    'task.html',
+                    title=title,
+                    task=task_dict,
+                    cmd=' '.join(argv),
+                    out=ansi_escape.sub('', out),
+                )
 
             except KeyError:
                 return 400, 'no such task {0}!'.format(task)
